@@ -1,5 +1,7 @@
 package com.example.android.newsfeed;
 
+import java.util.ArrayList;
+
 /**
  * Class representing news objects.
  */
@@ -9,12 +11,14 @@ public class News {
     private String title;
     private String section;
     private String date;
+    private ArrayList<String> authors;
 
     // Define constructor
-    public News(String title, String section, String date) {
+    public News(String title, String section, String date, ArrayList<String> authors) {
         this.title = title;
         this.section = section;
         this.date = date;
+        this.authors = authors;
     }
 
     // Define methods
@@ -30,6 +34,10 @@ public class News {
         return date;
     }
 
+    public ArrayList<String> getAuthors() {
+        return authors;
+    }
+
     /**
      * Helper method that summarizes the object for debugging purposes.
      *
@@ -41,6 +49,7 @@ public class News {
                 "Title: " + title + "\n" +
                 "Section: " + section + "\n" +
                 "Date: " + date + "\n" +
+                "Authors: " + authors.toString() + "\n" +
                 "}";
     }
 }

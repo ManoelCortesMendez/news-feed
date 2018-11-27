@@ -61,6 +61,10 @@ public class NewsAdapter extends ArrayAdapter {
         TextView dateTextView = newsItemView.findViewById(R.id.news_date_text_view);
         dateTextView.setText(dateToDisplay);
 
+        // Set authors
+        TextView authorsTextView = newsItemView.findViewById(R.id.news_authors_text_view);
+        authorsTextView.setText(String.join(", ", currentNews.getAuthors()));
+
         return newsItemView;
     }
 
@@ -71,6 +75,11 @@ public class NewsAdapter extends ArrayAdapter {
      * @return Output string date in format "MMM dd, yyyy".
      */
     private String formatDate(String dateString) {
+        // If date is empty, return early
+        if (dateString == "") {
+            return "Date N/A";
+        }
+
         // Instantiate parser for parsing input string date
         SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd");
 

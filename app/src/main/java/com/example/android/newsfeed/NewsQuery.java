@@ -168,6 +168,12 @@ public final class NewsQuery {
         return stringBuilder.toString();
     }
 
+    /**
+     * Extract news date from JSON string, such as title, publication date, and author.
+     *
+     * @param newsJson JSON strings that represents a series of news.
+     * @return A list of news objects.
+     */
     private static List<News> extractFeaturesFromJson(String newsJson) {
         // If newsJson is empty or null, return early
         if (TextUtils.isEmpty(newsJson)) {
@@ -193,13 +199,25 @@ public final class NewsQuery {
                 // Get news at current index
                 JSONObject newsProperties = newsArray.getJSONObject(i);
 
-                // Extract desired properties from current news object
+                // Extract required properties from current news object
                 String title = newsProperties.getString("webTitle");
                 String section = newsProperties.getString("sectionName");
-                String date = newsProperties.getString("webPublicationDate");
+
+                // Extract optional date property from current news object
+                String date = newsProperties.optString("webPublicationDate");
+
+                // Extract optional authors property from current news object
+                JSONArray authorsArray = newsProperties.getJSONArray("tags");
+                ArrayList<String> authors = new ArrayList<>();
+
+                // If the authors array is empty, this for loop will be skipped
+                for (int j = 0; j < authorsArray.length(); j++) {
+                    JSONObject author = authorsArray.getJSONObject(j);
+                    authors.add(author.getString("webTitle"));
+                }
 
                 // Create news object with properties extracted
-                News currentNews = new News(title, section, date);
+                News currentNews = new News(title, section, date, authors);
 
                 // Append news to news list
                 news.add(currentNews);
