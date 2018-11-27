@@ -1,6 +1,11 @@
 package com.example.android.newsfeed;
 
+import android.text.TextUtils;
 import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +15,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility class for fetching news data from The Guardian's API.
@@ -37,7 +44,7 @@ public final class NewsQuery {
      * @param queryUrlString URL used to query the API.
      * @return List of news objects.
      */
-    public static String fetchNews(String queryUrlString) {
+    public static List<News> fetchNews(String queryUrlString) {
 
         // Create query URL object from query URL string.
         URL queryUrlObject = makeUrlObject(queryUrlString);
@@ -51,7 +58,10 @@ public final class NewsQuery {
             Log.e(LOG_TAG, "Problem fetching JSON: ", exception);
         }
 
-        return newsJson;
+        // Extract relevant fields from JSON response and create list of news objects
+        List<News> news = extractFeaturesFromJson(newsJson);
+
+        return news;
     }
 
     /**
@@ -156,5 +166,48 @@ public final class NewsQuery {
 
         // Return lines stored as a single String
         return stringBuilder.toString();
+    }
+
+    private static List<News> extractFeaturesFromJson(String newsJson) {
+        // If newsJson is empty or null, return early
+        if (TextUtils.isEmpty(newsJson)) {
+            return null;
+        }
+
+        // Create empty list to store news objects
+        List<News> news = new ArrayList<>();
+
+        // Try to parse newsJson
+        try {
+            // Convert JSON String to JSON Object
+            JSONObject responseObject = new JSONObject(newsJson);
+
+            // Extract JSON object indexed by 'response'
+            JSONObject newsObject = responseObject.getJSONObject("response");
+
+            // Extract JSON array indexed by 'results'. It represents a list of articles.
+            JSONArray newsArray = newsObject.getJSONArray("results");
+
+            // For each news in newsArray, create a news object
+            for (int i = 0; i < newsArray.length(); i++) {
+                // Get news at current index
+                JSONObject newsProperties = newsArray.getJSONObject(i);
+
+                // Extract desired properties from current news object
+                String title = newsProperties.getString("webTitle");
+                String section = newsProperties.getString("sectionName");
+
+                // Create news object with properties extracted
+                News currentNews = new News(title, section);
+
+                // Append news to news list
+                news.add(currentNews);
+            }
+
+        } catch (JSONException exception) {
+            Log.e(LOG_TAG, "Problem extracting news data from JSON.", exception);
+        }
+
+        return news;
     }
 }

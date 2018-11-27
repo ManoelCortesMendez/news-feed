@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".NewsActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Placeholder Article Title"
-        android:text="Placeholder Article Title"
-        android:id="@+id/article_title_text_view" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/news_list_view"
+        android:orientation="vertical"/>
 
 </android.support.constraint.ConstraintLayout>
