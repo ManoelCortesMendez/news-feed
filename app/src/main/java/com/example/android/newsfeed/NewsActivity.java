@@ -20,8 +20,8 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     /** ID used to uniquely identify and seed the news loader. */
     private final int NEWS_LOADER_ID = 0;
 
-    /** URL used to query The Guardian's API */
-    private final String NEWS_QUERY_URL = "https://content.guardianapis.com/search?q=debates&api-key=test";
+    /** URL used to query The Guardian's API -- We query articles about Google */
+    private final String NEWS_QUERY_URL = "https://content.guardianapis.com/search?q=google&show-tags=contributor&api-key=test";
     
     private NewsAdapter newsAdapter;
 

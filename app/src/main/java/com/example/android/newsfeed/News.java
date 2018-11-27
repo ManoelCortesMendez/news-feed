@@ -8,11 +8,13 @@ public class News {
     // Declare fields
     private String title;
     private String section;
+    private String date;
 
     // Define constructor
-    public News(String title, String section) {
+    public News(String title, String section, String date) {
         this.title = title;
         this.section = section;
+        this.date = date;
     }
 
     // Define methods
@@ -22,6 +24,10 @@ public class News {
 
     public String getSection() {
         return section;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     /**
@@ -34,6 +40,7 @@ public class News {
         return "News {" +  "\n" +
                 "Title: " + title + "\n" +
                 "Section: " + section + "\n" +
+                "Date: " + date + "\n" +
                 "}";
     }
 }

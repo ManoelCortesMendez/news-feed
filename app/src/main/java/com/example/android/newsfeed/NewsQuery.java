@@ -196,16 +196,17 @@ public final class NewsQuery {
                 // Extract desired properties from current news object
                 String title = newsProperties.getString("webTitle");
                 String section = newsProperties.getString("sectionName");
+                String date = newsProperties.getString("webPublicationDate");
 
                 // Create news object with properties extracted
-                News currentNews = new News(title, section);
+                News currentNews = new News(title, section, date);
 
                 // Append news to news list
                 news.add(currentNews);
             }
 
         } catch (JSONException exception) {
-            Log.e(LOG_TAG, "Problem extracting news data from JSON.", exception);
+            Log.e(LOG_TAG, "Problem extracting news data from JSON: ", exception);
         }
 
         return news;
