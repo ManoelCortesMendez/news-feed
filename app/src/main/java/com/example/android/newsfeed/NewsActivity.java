@@ -1,8 +1,11 @@
 package com.example.android.newsfeed;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -86,13 +89,31 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        // Get loader manager to set up loader for scheduling async tasks on secondary thread
-        LoaderManager loaderManager = getLoaderManager();
+        // Get ConnectivityManager to check network state -- that is, if we have internet
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        // Initialize loader to fetch news asynchronously
-        // We pass it this activity as loaderCallBacks parameter, which is valid since this activity
-        // implements that interface
-        loaderManager.initLoader(NEWS_LOADER_ID, null, this);
+        // Get current network info
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        // If we're connected to a network...
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // ... fetch data
+            // Get loader manager to set up loader for scheduling async tasks on secondary thread
+            LoaderManager loaderManager = getLoaderManager();
+
+            // Initialize loader to fetch news asynchronously
+            // We pass it this activity as loaderCallBacks parameter, which is valid since this activity
+            // implements that interface
+            loaderManager.initLoader(NEWS_LOADER_ID, null, this);
+        } else {
+            // ... display error
+            // Hide loading indicator
+            ProgressBar progressBar = findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.GONE);
+
+            // Display connection error message
+            noNewsTextView.setText("No internet connection.");
+        }
     }
 
     // Implement loader callback interface
