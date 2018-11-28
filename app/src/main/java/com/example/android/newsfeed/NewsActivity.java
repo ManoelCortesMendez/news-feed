@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -117,6 +118,10 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
      */
     @Override
     public void onLoadFinished(Loader<List<News>> newsLoader, List<News> news) {
+        // Hide progress, since data fetching has now resolved (either succeeded or failed)
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
+
         // Remove news objects from adapter -- that is, empty its list
         newsAdapter.clear();
 
