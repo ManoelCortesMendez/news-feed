@@ -8,13 +8,15 @@ import java.util.ArrayList;
 public class News {
 
     // Declare fields
+    private String url;
     private String title;
     private String section;
     private String date;
     private ArrayList<String> authors;
 
     // Define constructor
-    public News(String title, String section, String date, ArrayList<String> authors) {
+    public News(String url, String title, String section, String date, ArrayList<String> authors) {
+        this.url = url;
         this.title = title;
         this.section = section;
         this.date = date;
@@ -22,6 +24,8 @@ public class News {
     }
 
     // Define methods
+    public String getUrl() { return url; }
+
     public String getTitle() {
         return title;
     }
@@ -46,6 +50,7 @@ public class News {
     @Override
     public String toString() {
         return "News {" +  "\n" +
+                "URL: " + url + "\n" +
                 "Title: " + title + "\n" +
                 "Section: " + section + "\n" +
                 "Date: " + date + "\n" +

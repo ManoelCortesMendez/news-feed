@@ -1,9 +1,13 @@
 package com.example.android.newsfeed;
 
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -41,6 +45,32 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // Bind news adapter and list view to populate view with news
         newsListView.setAdapter(newsAdapter);
+
+        // Bind item click listener to ListView, which sends intent to browser to navigate to article
+        newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * Bind click listener to ListView items.
+             *
+             * @param parentListView ListView that contains all the news items.
+             * @param clickedItemView ItemView that represents the news item clicked.
+             * @param position Position of the clicked ItemView in the adapter's list.
+             * @param rowId Row of the clicked ItemView in the parent ListView.
+             */
+            @Override
+            public void onItemClick(AdapterView<?> parentListView, View clickedItemView, int position, long rowId) {
+                // Get clicked article
+                News clickedNews = (News) newsAdapter.getItem(position);
+
+                // Convert String URL into URI object
+                Uri clickedNewsUri = Uri.parse(clickedNews.getUrl());
+
+                // Create intent to open URI
+                Intent clickedNewsIntent = new Intent(Intent.ACTION_VIEW, clickedNewsUri);
+
+                // Send intent to open URI in browser
+                startActivity(clickedNewsIntent);
+            }
+        });
 
         // Get loader manager to set up loader for scheduling async tasks on secondary thread
         LoaderManager loaderManager = getLoaderManager();

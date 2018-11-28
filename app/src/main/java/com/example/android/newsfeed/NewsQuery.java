@@ -200,6 +200,7 @@ public final class NewsQuery {
                 JSONObject newsProperties = newsArray.getJSONObject(i);
 
                 // Extract required properties from current news object
+                String url = newsProperties.getString("webUrl");
                 String title = newsProperties.getString("webTitle");
                 String section = newsProperties.getString("sectionName");
 
@@ -217,7 +218,7 @@ public final class NewsQuery {
                 }
 
                 // Create news object with properties extracted
-                News currentNews = new News(title, section, date, authors);
+                News currentNews = new News(url, title, section, date, authors);
 
                 // Append news to news list
                 news.add(currentNews);
