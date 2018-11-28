@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,11 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
 
     /** URL used to query The Guardian's API -- We query articles about Google */
     private final String NEWS_QUERY_URL = "https://content.guardianapis.com/search?q=google&show-tags=contributor&api-key=test";
-    
+
+    /** TextView to display when no news is found. */
+    private TextView noNewsTextView;
+
+    /** Adapter to bind news list to list of news objects and display them efficiently (only when on screen) */
     private NewsAdapter newsAdapter;
 
     // Define constructor
@@ -39,6 +44,14 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // Get news list view
         ListView newsListView = findViewById(R.id.news_list_view);
+
+        // Get empty view -- that is, the no news text view
+        noNewsTextView = findViewById(R.id.no_news_text_view);
+
+        // Use dedicated method to set no news text view as the view to default to when there's no data
+        // The empty view starts without text, so it won't blink while news are being fetched
+        // When news data is successfully fetched, the no text view is automatically hidden
+        newsListView.setEmptyView(noNewsTextView);
 
         // Instantiate adapter that takes as input an empty list of news objects
         newsAdapter = new NewsAdapter(this, new ArrayList<News>());
@@ -112,6 +125,12 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         if (news != null && !news.isEmpty()) {
             newsAdapter.addAll(news);
         }
+
+        // Now that fetching has resolved, add text to no news text view.
+        // If fetching failed (no news retrieved), the text will be visible.
+        // If fetching fulfilled (news retrieved), the text view will be automatically hidden
+        // since it was set using a special method in onCreate(). So text won't be visible.
+        noNewsTextView.setText("No news found.");
     }
 
     /**
