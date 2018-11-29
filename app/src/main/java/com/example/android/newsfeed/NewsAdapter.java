@@ -31,9 +31,9 @@ public class NewsAdapter extends ArrayAdapter {
     /**
      * Build view using object at index 'position' and return it.
      *
-     * @param position Index of the current news object to display.
+     * @param position    Index of the current news object to display.
      * @param convertView Potential view from scrap pile -- for recycling views.
-     * @param parent Parent view group of the view we're inflating or recycling.
+     * @param parent      Parent view group of the view we're inflating or recycling.
      * @return Fully-built view to display.
      */
     @Override
@@ -92,7 +92,7 @@ public class NewsAdapter extends ArrayAdapter {
         }
 
         // Instantiate formatter for formatting output string date
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("  •  MMM dd, ''yy");
 
         // Return formatted date
         return dateFormatter.format(date);

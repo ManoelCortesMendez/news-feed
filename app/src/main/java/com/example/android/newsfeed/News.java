@@ -24,7 +24,9 @@ public class News {
     }
 
     // Define methods
-    public String getUrl() { return url; }
+    public String getUrl() {
+        return url;
+    }
 
     public String getTitle() {
         return title;
@@ -49,7 +51,7 @@ public class News {
      */
     @Override
     public String toString() {
-        return "News {" +  "\n" +
+        return "News {" + "\n" +
                 "URL: " + url + "\n" +
                 "Title: " + title + "\n" +
                 "Section: " + section + "\n" +

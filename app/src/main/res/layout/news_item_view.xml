@@ -4,51 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:layout_editor_absoluteY="81dp">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/news_title_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Placeholder News Title" />
+        tools:text="Google employees sign letter against censored search engine for China"
+        style="@style/news_title_style" />
+
+    <TextView
+        android:id="@+id/news_authors_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/barrier"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/news_title_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/news_title_text_view"
+        tools:text="Julia Carrie Wong, Julia Carrie Wong"
+        style="@style/news_info_style" />
 
     <TextView
         android:id="@+id/news_section_text_view"
+        style="@style/news_info_style"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/news_date_text_view"
         app:layout_constraintTop_toBottomOf="@+id/news_title_text_view"
-        tools:text="Placeholder News Section" />
+        tools:text="Technology" />
 
     <TextView
         android:id="@+id/news_date_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/news_section_text_view"
-        tools:text="Placeholder News Date" />
+        style="@style/news_info_style"
+        app:layout_constraintEnd_toEndOf="@+id/news_title_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/news_title_text_view"
+        tools:text="Nov 27, 2018" />
 
-    <TextView
-        android:id="@+id/news_authors_text_view"
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/news_date_text_view"
-        tools:text="Placeholder News Author" />
-
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="news_section_text_view"/>
 
 </android.support.constraint.ConstraintLayout>

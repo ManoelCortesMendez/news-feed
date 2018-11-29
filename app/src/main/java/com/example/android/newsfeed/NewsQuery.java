@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Utility class for fetching news data from The Guardian's API.
- *
+ * <p>
  * Since we won't be subclassing it, we can declare it as final.
  */
 public final class NewsQuery {

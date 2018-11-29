@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,22 +21,30 @@ import java.util.List;
 
 /**
  * Main activity showing a news feed.
- *
+ * <p>
  * The activity implements the loader callback interface to be able to fetch news asynchronously.
  */
 public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
     // Define member variables
-    /** ID used to uniquely identify and seed the news loader. */
+    /**
+     * ID used to uniquely identify and seed the news loader.
+     */
     private final int NEWS_LOADER_ID = 0;
 
-    /** URL used to query The Guardian's API -- We query articles about Google */
-    private final String NEWS_QUERY_URL = "https://content.guardianapis.com/search?q=google&show-tags=contributor&api-key=test";
+    /**
+     * URL used to query The Guardian's API -- We query articles about Google
+     */
+    private final String NEWS_QUERY_URL = "https://content.guardianapis.com/search?q=google&show-tags=contributor&show-fields=thumbnail&api-key=54a72938-b6be-4f0b-b258-15a961c183cf";
 
-    /** TextView to display when no news is found. */
+    /**
+     * TextView to display when no news is found.
+     */
     private TextView noNewsTextView;
 
-    /** Adapter to bind news list to list of news objects and display them efficiently (only when on screen) */
+    /**
+     * Adapter to bind news list to list of news objects and display them efficiently (only when on screen)
+     */
     private NewsAdapter newsAdapter;
 
     // Define constructor
@@ -99,7 +108,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         if (networkInfo != null && networkInfo.isConnected()) {
             // ... fetch data
             // Get loader manager to set up loader for scheduling async tasks on secondary thread
-            LoaderManager loaderManager = getLoaderManager();
+            final LoaderManager loaderManager = getLoaderManager();
 
             // Initialize loader to fetch news asynchronously
             // We pass it this activity as loaderCallBacks parameter, which is valid since this activity
@@ -117,10 +126,11 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     // Implement loader callback interface
+
     /**
      * Instantiate and return a new loader for the given ID and query.
      *
-     * @param id Unique number to identify and seed loader.
+     * @param id          Unique number to identify and seed loader.
      * @param queryString URL string for querying news API.
      * @return New loader for asynchronously querying news API.
      */
@@ -131,11 +141,11 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
 
     /**
      * Method called when a previously created loader has finished fetching data.
-     *
+     * <p>
      * Clears the adapter's list and adds the news passed, if there are any.
      *
      * @param newsLoader Previously created news loader object.
-     * @param news List of news objects.
+     * @param news       List of news objects.
      */
     @Override
     public void onLoadFinished(Loader<List<News>> newsLoader, List<News> news) {
