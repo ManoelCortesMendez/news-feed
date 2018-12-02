@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -47,7 +49,11 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
      */
     private NewsAdapter newsAdapter;
 
-    // Define constructor
+    /**
+     * Inflate activity contents when activity is created.
+     *
+     * @param savedInstanceState Previous activity state, if any has been saved -- to pick up where you left off.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,12 +131,53 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
+    // Implement options menu (settings)
+
+    /**
+     * Inflate contents of the activity' standard options menu -- that is, the settings menu 
+     * accessible via the action bar.
+     *
+     * @param menu Options menu in which to place your items.
+     * @return true for the menu to be displayed, false otherwise.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate options menu using menu XML resource
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    /**
+     * Hook called whenever a menu item is selected. Defines which actions to take depending on
+     * which item was selected. Here, there's only one item to handle: Settings -- that is, opening
+     * the settings activity.
+     *
+     * @param menuItem Menu item that was selected.
+     * @return true to handle interaction with menu here, or false to let the parent class do it.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        // Get id of menu item clicked
+        int itemId = menuItem.getItemId();
+
+        // If menu item clicked is 'Settings'
+        if (itemId == R.id.open_settings_menu_item) {
+            // Open Settings activity via explicit intent
+            Intent openSettings = new Intent(this, SettingsActivity.class);
+            startActivity(openSettings);
+            return true; // To handle menu interaction here via our custom implementation
+        }
+
+        return super.onOptionsItemSelected(menuItem); // To handle menu interaction via default channel in parent
+    }
+
+
     // Implement loader callback interface
 
     /**
      * Instantiate and return a new loader for the given ID and query.
      *
-     * @param id          Unique number to identify and seed loader.
+     * @param id Unique number to identify and seed loader.
      * @param queryString URL string for querying news API.
      * @return New loader for asynchronously querying news API.
      */

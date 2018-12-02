@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">News Feed</string>
+
+    <!--Settings menu-->
+    <string name="settings_menu_item_label">Settings</string>
+    <string name="settings_activity_title">News Feed Settings</string>
+
 </resources>
