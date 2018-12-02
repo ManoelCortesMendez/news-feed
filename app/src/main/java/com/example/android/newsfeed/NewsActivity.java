@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,7 +24,7 @@ import java.util.List;
 
 /**
  * Main activity showing a news feed.
- * <p>
+ *
  * The activity implements the loader callback interface to be able to fetch news asynchronously.
  */
 public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
@@ -34,12 +33,12 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     /**
      * ID used to uniquely identify and seed the news loader.
      */
-    private final int NEWS_LOADER_ID = 0;
+    private static final int NEWS_LOADER_ID = 0;
 
     /**
      * URL used to query The Guardian's API -- We query articles about Google
      */
-    private final String NEWS_QUERY_URL = "https://content.guardianapis.com/search";
+    private static final String NEWS_QUERY_URL = "https://content.guardianapis.com/search";
 
     /**
      * TextView to display when no news is found.
@@ -146,7 +145,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate options menu using menu XML resource
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
+        return true; // To display menu
     }
 
     /**
@@ -179,14 +178,14 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     /**
      * Build query and instantiate and return a new loader for the given ID.
      *
-     * @param id Unique number to identify and seed loader.
+     * @param loaderId Unique number to identify and seed loader.
      * @param queryString URL string for querying news API.
      * @return New loader for asynchronously querying news API.
      */
     @Override
     public Loader<List<News>> onCreateLoader(int loaderId, Bundle queryString) {
 
-        // Get app preference values from default app settings file
+        // Get app preference object that holds settings values stored in default app settings file
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Get current string value and default string value from specific preference
