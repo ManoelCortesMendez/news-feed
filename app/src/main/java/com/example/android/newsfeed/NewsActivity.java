@@ -4,9 +4,11 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,7 +39,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     /**
      * URL used to query The Guardian's API -- We query articles about Google
      */
-    private final String NEWS_QUERY_URL = "https://content.guardianapis.com/search?q=google&show-tags=contributor&show-fields=thumbnail&api-key=54a72938-b6be-4f0b-b258-15a961c183cf";
+    private final String NEWS_QUERY_URL = "https://content.guardianapis.com/search";
 
     /**
      * TextView to display when no news is found.
@@ -175,15 +177,36 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     // Implement loader callback interface
 
     /**
-     * Instantiate and return a new loader for the given ID and query.
+     * Build query and instantiate and return a new loader for the given ID.
      *
      * @param id Unique number to identify and seed loader.
      * @param queryString URL string for querying news API.
      * @return New loader for asynchronously querying news API.
      */
     @Override
-    public Loader<List<News>> onCreateLoader(int id, Bundle queryString) {
-        return new NewsLoader(this, NEWS_QUERY_URL);
+    public Loader<List<News>> onCreateLoader(int loaderId, Bundle queryString) {
+
+        // Get app preference values from default app settings file
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Get current string value and default string value from specific preference
+        // In this case, get current search keywords and default search keywords
+        String searchKeywords = sharedPreferences.getString(
+                getString(R.string.settings_search_keywords_key),
+                getString(R.string.settings_search_keywords_default));
+
+        // Build URI query object from URL query String
+        Uri baseQueryUri = Uri.parse(NEWS_QUERY_URL);
+
+        // Prepare URI query object we just built to receive query parameters and values
+        Uri.Builder baseQueryUriBuilder = baseQueryUri.buildUpon();
+
+        // Append query parameters and values -- for example: 'show-tags=contributor'
+        baseQueryUriBuilder.appendQueryParameter("api-key", "54a72938-b6be-4f0b-b258-15a961c183cf"); // Pass my API key
+        baseQueryUriBuilder.appendQueryParameter("q", searchKeywords); // Result should contain keywords
+        baseQueryUriBuilder.appendQueryParameter("show-tags", "contributor"); // Results should include author(s)
+
+        return new NewsLoader(this, baseQueryUriBuilder.toString());
     }
 
     /**

@@ -21,7 +21,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static class NewsPreferenceFragment extends PreferenceFragment {
 
         /**
-         * Inflate contents of settings activity with preference widgets
+         * Inflate contents of settings activity with preference widgets.
          *
          * @param savedInstanceState
          */
