@@ -5,4 +5,9 @@
     <string name="settings_menu_item_label">Settings</string>
     <string name="settings_activity_title">News Feed Settings</string>
 
+    <!--Preference 1: search keywords -->
+    <string name="settings_search_keywords_label">Search Keywords</string>
+    <string name="settings_search_keywords_key" translatable="false">search_keywords</string>
+    <string name="settings_search_keywords_default" translatable="false">Google</string>
+
 </resources>

@@ -20,5 +20,16 @@ public class SettingsActivity extends AppCompatActivity {
      */
     public static class NewsPreferenceFragment extends PreferenceFragment {
 
+        /**
+         * Inflate contents of settings activity with preference widgets
+         *
+         * @param savedInstanceState
+         */
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            // Add preferences defined in XML to settings activity
+            addPreferencesFromResource(R.xml.settings_main);
+        }
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Define settings activity layout and content-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--Preference 1 widget: keywords search-->
+    <EditTextPreference
+        android:defaultValue="@string/settings_search_keywords_default"
+        android:inputType="text"
+        android:key="@string/settings_search_keywords_key"
+        android:selectAllOnFocus="true"
+        android:title="@string/settings_search_keywords_label"/>
+
+</PreferenceScreen>
