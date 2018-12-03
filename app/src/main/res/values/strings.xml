@@ -10,4 +10,17 @@
     <string name="settings_search_keywords_key" translatable="false">search_keywords</string>
     <string name="settings_search_keywords_default" translatable="false">Google</string>
 
+    <!--Preference 2: order by-->
+    <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->
+    <string name="settings_order_by_label">Order By</string>
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_relevance_value</string>
+
+    <!-- Label for order-by relevance option [CHAR LIMIT=20] -->
+    <string name="settings_order_by_relevance_label">Relevance</string>
+    <string name="settings_order_by_relevance_value" translatable="false">relevance</string>
+
+    <!-- Label for order-by newest option [CHAR LIMIT=20] -->
+    <string name="settings_order_by_newest_label">Newest</string>
+    <string name="settings_order_by_newest_value" translatable="false">newest</string>
 </resources>

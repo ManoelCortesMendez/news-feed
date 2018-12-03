@@ -1,11 +1,14 @@
 package com.example.android.newsfeed;
 
 import android.content.SharedPreferences;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import java.util.List;
 
 /**
  * Activity that manages the app settings.
@@ -35,11 +38,17 @@ public class SettingsActivity extends AppCompatActivity {
             // Add preferences defined in XML to settings activity
             addPreferencesFromResource(R.xml.settings_main);
 
-            // Get search keywords preference object using its reference key
+            // First, get search keywords preference object using its reference key
             Preference searchKeywordsPreference = findPreference(getString(R.string.settings_search_keywords_key));
 
-            // Bind search keywords preference object
+            // Bind search keywords preference object state to UI
             bindPreferenceDisplayedToState(searchKeywordsPreference);
+
+            // Second, get order by preference object using its reference key
+            Preference orderByPreference = findPreference(getString(R.string.settings_order_by_key));
+
+            // Bind order by preference object state to UI
+            bindPreferenceDisplayedToState(orderByPreference);
         }
 
 
@@ -57,6 +66,27 @@ public class SettingsActivity extends AppCompatActivity {
 
             // Update value of preference in summary (the UI)
             preferenceChanged.setSummary(newPreferenceValueString);
+
+            // Deal with case when preference changed is order by (which is implemented in as ListPreference)
+            if (preferenceChanged instanceof ListPreference) {
+
+                // Cast preference changed as a list preference
+                ListPreference listPreferenceChanged = (ListPreference) preferenceChanged;
+
+                // Get list preference changed index by searching for its string value
+                int listPreferenceChangedIndex = listPreferenceChanged.findIndexOfValue(newPreferenceValueString);
+
+                // If list preference changed index zero or larger -- that is, if it is one of the entries ...
+                // (Because, typically, non-entries have a negative key: e.g. -1)
+                if (listPreferenceChangedIndex >= 0) {
+                    // Get labels of preference changed
+                    CharSequence[] labelsPreferenceChanged = listPreferenceChanged.getEntries();
+                    // ... update value of preference in summary (the UI) using label of appropriate index
+                    preferenceChanged.setSummary(labelsPreferenceChanged[listPreferenceChangedIndex]);
+                }
+            } else {
+                preferenceChanged.setSummary(newPreferenceValueString);
+            }
 
             return true; // to update value of the preference in sharedPreferences (the state)
         }

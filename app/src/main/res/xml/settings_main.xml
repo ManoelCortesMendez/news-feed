@@ -2,12 +2,20 @@
 <!--Define settings activity layout and content-->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--Preference 1 widget: keywords search-->
+    <!--Preference 1 widget: search keywords-->
     <EditTextPreference
         android:defaultValue="@string/settings_search_keywords_default"
         android:inputType="text"
         android:key="@string/settings_search_keywords_key"
         android:selectAllOnFocus="true"
         android:title="@string/settings_search_keywords_label"/>
+
+    <!--Preference 2 widget: order by -->
+    <ListPreference
+        android:defaultValue="@string/settings_order_by_default"
+        android:entries="@array/settings_order_by_labels"
+        android:entryValues="@array/settings_order_by_values"
+        android:key="@string/settings_order_by_key"
+        android:title="@string/settings_order_by_label" />
 
 </PreferenceScreen>

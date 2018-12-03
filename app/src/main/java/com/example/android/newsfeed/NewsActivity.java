@@ -189,10 +189,17 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Get current string value and default string value from specific preference
-        // In this case, get current search keywords and default search keywords
+
+        // First, get current search keywords and default search keywords
         String searchKeywords = sharedPreferences.getString(
                 getString(R.string.settings_search_keywords_key),
                 getString(R.string.settings_search_keywords_default));
+
+        // Second, get current sort order and default sort order
+        String orderBy = sharedPreferences.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+        );
 
         // Build URI query object from URL query String
         Uri baseQueryUri = Uri.parse(NEWS_QUERY_URL);
@@ -203,6 +210,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         // Append query parameters and values -- for example: 'show-tags=contributor'
         baseQueryUriBuilder.appendQueryParameter("api-key", "54a72938-b6be-4f0b-b258-15a961c183cf"); // Pass my API key
         baseQueryUriBuilder.appendQueryParameter("q", searchKeywords); // Result should contain keywords
+        baseQueryUriBuilder.appendQueryParameter("order-by", orderBy); // Result should contain keywords
         baseQueryUriBuilder.appendQueryParameter("show-tags", "contributor"); // Results should include author(s)
 
         return new NewsLoader(this, baseQueryUriBuilder.toString());
